@@ -17,7 +17,7 @@ Le jeux fonctionne sous forme client / serveur :
 
 ## Grille.cpp
 
-On créer une classe grid, chaque joueur aura la sienne. Celle-ci va permettre dans la suite de contenir le jeux de chaque joueur et de faire les calculs et opérations pour chaque joueur. Chaque grille possède un attribut principal grid_tab : un tableau de 10*22 qui contient les pieces
+On créer une classe grid, chaque joueur aura la sienne. Celle-ci va permettre dans la suite de contenir le jeux de chaque joueur et de faire les calculs et opérations pour chaque joueur. Chaque grille possède un attribut principal grid_tab : un tableau de 10*22 qui contient les pieces. Le principe de fonctionement de la grille est le suivant, on créer une piece que l'on insère dans la grille puis que l'on deplace grace aux méthodes de la grille.
 
 Pour chaque joueur on procède ainsi : 
 <ol>
