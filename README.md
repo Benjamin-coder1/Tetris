@@ -66,6 +66,6 @@ Ce fichier est situé coté serveur, un seul joueur le lance puis envoie aux aut
 		<li> Creation d'un objet grid </li>
 		<li> Reception d'une touche</li> 
 		<li> MAJ de la grille </li>
-		<li> Envoit de cette nouvelle grille puis retour 2 </li>
+		<li> Envoit de cette nouvelle grille puis retour ii </li>
 	</ol>
 </ol>
