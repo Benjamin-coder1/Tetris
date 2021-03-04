@@ -34,7 +34,7 @@ int main( int argc, char *argv[]  ){
     int port_number = 11003;
  	int socket_descriptor = socket(AF_INET, SOCK_STREAM, 0);
  	if (socket_descriptor < 0){
-		std::cout << "Le lancement de la connexion à échoué " << std::endl;
+		std::cout << "Le lancement de la connexion à échoué impossible de créer un socket" << std::endl;
 		return 0;
 	}
 
