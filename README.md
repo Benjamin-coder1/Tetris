@@ -46,19 +46,26 @@ Il y a 7 pieces : <i><b> O  I  S  Z  L  J  T </i></b> chaque piece est représen
 
 Ce fichier se trouve coté client, elle est lancé par chaque joueur afin de se connecter au serveur et de pouvoir jouer. L'algorithme fonction ainsi 
 
-	1 - Etablissement d'une connexion avec le serveur et attente du lancement de la partie 
-	2 - Reception des données : grille du jeux / score / status de la partie / nom joueur 
-	3 - Affichage de la grille et reception de la touche du choix du joueur 
-	4 - Envoit de cette touche au serveur afin de mettre a jour la grille 
-	5 - Retour a 3 tant que le joueur n'a pas perdu 
+<ol>
+	<li> Etablissement d'une connexion avec le serveur et attente du lancement de la partie  </li>
+	<li> Reception des données : grille du jeux / score / status de la partie / nom joueur </li>
+	<li> Affichage de la grille et reception de la touche du choix du joueur </li>
+	<li> Envoit de cette touche au serveur afin de mettre a jour la grille </li>
+	<li> Retour a 3 tant que le joueur n'a pas perdu </li>
+</ol>
+
 
 ## tetris_serveur.cpp 
 
 Ce fichier est situé coté serveur, un seul joueur le lance puis envoie aux autres joueurs sont addresse IP. Le principe est le suivant : 
 
-	1 - Attente de connexion de tous les joueurs
-	2 - Creation d'un thread par joueur qui s'occupe de la partie dans lequel 
-		a - Creation d'un objet grid
-		b - Reception d'une touche
-		c - MAJ de la grille 
-		d - Envoit de cette nouvelle grille puis retour b 
+<ol>
+	<li> Attente de connexion de tous les joueurs </li>
+	<li> Creation d'un thread par joueur qui s'occupe de la partie dans lequel </li>
+	<ol> 
+		<li> Creation d'un objet grid </li>
+		<li> Reception d'une touche</li> 
+		<li> MAJ de la grille </li>
+		<li> Envoit de cette nouvelle grille puis retour 2 </li>
+	</ol>
+</ol>
