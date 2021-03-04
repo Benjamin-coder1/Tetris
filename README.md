@@ -1,4 +1,4 @@
-#Headline TETRIS
+# TETRIS
 
 Comment lancer le jeux ? 
 	1- lancer un         >> bash compilation.sh 
