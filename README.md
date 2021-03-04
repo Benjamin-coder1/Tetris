@@ -1,9 +1,9 @@
 # TETRIS
 
 Comment lancer le jeux ? 
-	1- lancer un         >> bash compilation.sh 
-	2- lancer sur un terminal    >> ./tetris   puis remplir le nombre de joueurs
-	3- lancer sur un autre terminal pour chaque joeur  >> ./tetris_client  puis donner nom / adresse IP du serveur ( "localhost" si jeux en local)
+	1 - lancer un         >> bash compilation.sh 
+	2 - lancer sur un terminal    >> ./tetris   puis remplir le nombre de joueurs
+	3 - lancer sur un autre terminal pour chaque joeur  >> ./tetris_client  puis donner nom / adresse IP du serveur ( "localhost" si jeux en local)
 
 La partie se lance : en local c'est immédiat /  en ligne la connexion peut etre longue et infructueuse (elle fonctionne bien en local)
 
