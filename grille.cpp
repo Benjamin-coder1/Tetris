@@ -206,7 +206,7 @@ grid::piece_rotation(piece& la_piece){
 			// on test si c'est possible
 			if (piece_value[la_piece.get_name()-1][new_rotation][i][j] != 0 ){
 				if ( grid_tab[la_piece.get_x() - 1 + i][la_piece.get_y() + j - 2] != 0 ){
-					(*this).write_piece_grille(la_piece); 
+					(*this).write_piece_grille(la_piece); p
 					return 0;
 				}
 			}

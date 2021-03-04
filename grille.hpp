@@ -11,13 +11,16 @@ class grid {
 
 	private:
 		
-		// statut partie
+		// statut partie 1 si en cours / 0 si finis
 		int status_partie;
-		// donne score		
+
+		// score du joueur
 		int score;
-		// pour la grille        
+
+		// grille de jeux     
 		int grid_tab[22][10];
-		// information sur le propriétaire de la grille 
+
+		// nom du joueur 
 		std::string name; 
 
 
@@ -26,7 +29,8 @@ class grid {
 			return grid_tab[i][j];
 		}
 
-		// constructeur de la grille
+		// constructeur de la grille, initialement grid_tab est remplie de 0 le score est nul
+		// le status de la partie vaut 1
 		grid() ;	
 
 		// recupérer le score
@@ -60,7 +64,7 @@ class grid {
 		// fonction pour supprimer ligne entière
 		void clean();	
 
-		// fonction d'affichage 
+		// fonction d'affichage debeugage
 		void print_grid();
 
 };

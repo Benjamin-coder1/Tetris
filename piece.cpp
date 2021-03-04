@@ -24,18 +24,4 @@ void piece::set_rotation( int nombre_rotation_d) {nombre_rotation = nombre_rotat
 
 // tourner 
 void piece::turn() { nombre_rotation++%4; } 
-
-// affichage nom piece
-// inline std::ostream& piece::operator << ( std::ostream& stream, name nom_piece  )
-// {
-// 	if ( nom_piece == O) stream << "O";
-// 	if ( nom_piece == I) stream << "I";
-// 	if ( nom_piece == S) stream << "S";
-// 	if ( nom_piece == L) stream << "L";
-// 	if ( nom_piece == J) stream << "J";
-// 	if ( nom_piece == T) stream << "T";
-//     return stream;
-// }
-
-
-
+ 

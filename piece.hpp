@@ -16,11 +16,13 @@ name {O = 1,I,S,Z,L,J,T };
 class piece {
 
 	private :
-		// propriété de la piece
+		// nom de la piece en fonction de sa forme
 		name nom_piece;
 
-		// 4 formes qui sont tournées
+		// la piece peut tourner 4 fois 
 		int nombre_rotation;
+
+		// sa couleur 
 		int color_piece;
 
 		// position centre piece dans la grille de jeu
@@ -30,32 +32,25 @@ class piece {
 
 	public : 
 
-		// récupérer des grandeurs courante
+		// getter 
 		int get_x() ;
 		int get_y() ;
 		int get_rotation() ;
 		int get_name() ;
 
-		// modifier_valeur courante
+		// setter
 		void set_x( int x_d) ; 
 		void set_y( int y_d) ; 
 		void set_rotation( int nombre_rotation_d) ;
 
-		// tourner 
+		// faire tourner la piece une fois 
 		void turn() ; 
 
-		// initialiser la piece 
+		// constructeur d'une piece 
  		piece(name nom_piece) ;
 
  		
 };
-
-
-
-
-// // affichage nom piece 
-// inline std::ostream& piece::operator << ( std::ostream& stream, name nom_piece  );
-
 
 
 
