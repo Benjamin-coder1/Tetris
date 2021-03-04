@@ -21,7 +21,7 @@ On créer une classe grid, chaque joueur aura la sienne. Celle-ci va permettre d
 
 Pour chaque joueur on procède ainsi : 
 <ol>
-	<li>  On commence par créer aléatoirement une piece <li>
+	<li>  On commence par créer aléatoirement une piece </li>
 	<li>  On pose cette piece dans la grille </li>
 	<li>  On recoit les touches du joueur et on actualise la grille jusqu'a ce que la piece soit posée. </li>
 	<li>  La piece est alors "figée" dans la grille et on en crée une nouvelle afin de recommencer </li>
@@ -39,7 +39,7 @@ Cette methode permet de créer une piece que l’on inserera dans la grille puis
 
 Ce fichier contient une tableau de dimension 7*4*4*4 qui permet de stocker les pieces, leur forme et leur différentes orientations.
 
-Il y a 7 pieces : 0 / I/ S / Z / L/ J / T  chaque piece est représenté par une grille de 4 par 4. A chaque grille est associé un numero afin de pouvoir conserver les couleurs. Pour chaque piece on a 4 grille de 4 par 4, chaque grille representant une rotation de la piece. 
+Il y a 7 pieces : <i><b> 0 / I / S / Z / L/ J / T </i></b> chaque piece est représenté par une grille de 4 par 4. A chaque grille est associé un numero afin de pouvoir conserver les couleurs. Pour chaque piece on a 4 grille de 4 par 4, chaque grille representant une rotation de la piece. 
 
 
 ## tetris_client.cpp 
