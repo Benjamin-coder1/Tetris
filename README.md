@@ -12,7 +12,7 @@ La partie se lance : en local c'est immédiat /  en ligne la connexion peut êtr
 Le jeu fonctionne sous forme client / serveur : 
 <ul>
 	<li> <i> <b> Client </i> </b> : Reçoit la grille du joueur et l'affiche / capte les touches et les envois  </li>
- 	<li> <i> <b> Serveur </i> </b>  : Pour chaque joueur, recoit les touches puis met à jour la grille et l'envoi </li>
+ 	<li> <i> <b> Serveur </i> </b>  : Pour chaque joueur, recoit les touches puis met à jour la grille et l'envoie </li>
 </ul>
 
 ## Grille.cpp
