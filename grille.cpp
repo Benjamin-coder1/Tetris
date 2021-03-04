@@ -174,11 +174,13 @@ grid::piece_rotation(piece& la_piece){
 		if( la_piece.get_y() == 0 || la_piece.get_y() == 1) {
 			this->piece_translation_D(la_piece);
 			this->piece_rotation(la_piece);
+			(*this).write_piece_grille(la_piece); 
 			return 1;
 		}
 		if(la_piece.get_y() == 9 || la_piece.get_y() == 8) {
 			this->piece_translation_G(la_piece);
 			this->piece_rotation(la_piece);
+			(*this).write_piece_grille(la_piece); 
 			return 1;
 		}
 	}
