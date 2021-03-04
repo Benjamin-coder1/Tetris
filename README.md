@@ -14,23 +14,19 @@ Le jeux fonctionne sous forme client / serveur :
 	<li> <i> <b> Client </i> </b> : Recoit  un tableau d'entier de 22*10 ainsi que diverses informations sur le joueur et les affiche. </li>
  	<li> <i> <b> Serveur </i> </b>  : Pour chaque joueur le serveur recoit les touches, fais les calcul de mise a jour de la grille puis l'envoit au client afin de l'afficher </li>
 </ul>
-	
-
-
-
-
 
 ## Grille.cpp
 
 On créer une classe grid, chaque joueur aura la sienne. Celle-ci va permettre dans la suite de contenir le jeux de chaque joueur et de faire les calculs et opérations pour chaque joueur. Chaque grille possède un attribut principal grid_tab : un tableau de 10*22 qui contient les pieces
 
 Pour chaque joueur on procède ainsi : 
-	1 -  On commence par créer aléatoirement une piece 
-	2 -  On pose cette piece dans la grille 
-	3 -  On recoit les touches du joueur et on actualise la grille jusqu'a ce que la piece soit posée. 
-	4 - La piece est alors "figée" dans la grille et on en crée une nouvelle afin de recommencer 
+<ul>
+	<li> 1 -  On commence par créer aléatoirement une piece <li>
+	<li> 2 -  On pose cette piece dans la grille </li>
+	<li> 3 -  On recoit les touches du joueur et on actualise la grille jusqu'a ce que la piece soit posée. </li>
+	<li> 4 - La piece est alors "figée" dans la grille et on en crée une nouvelle afin de recommencer </li>
 
-
+</ul>
 
 
 ## piece.cpp
