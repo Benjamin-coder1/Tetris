@@ -39,7 +39,7 @@ Cette methode permet de créer une piece que l’on inserera dans la grille puis
 
 Ce fichier contient une tableau de dimension 7*4*4*4 qui permet de stocker les pieces, leur forme et leur différentes orientations.
 
-Il y a 7 pieces : <i><b> 0 / I / S / Z / L/ J / T </i></b> chaque piece est représenté par une grille de 4 par 4. A chaque grille est associé un numero afin de pouvoir conserver les couleurs. Pour chaque piece on a 4 grille de 4 par 4, chaque grille representant une rotation de la piece. 
+Il y a 7 pieces : <i><b> O  I  S  Z  L  J  T </i></b> chaque piece est représenté par une grille de 4 par 4. A chaque grille est associé un numero afin de pouvoir conserver les couleurs. Pour chaque piece on a 4 grille de 4 par 4, chaque grille representant une rotation de la piece. 
 
 
 ## tetris_client.cpp 
