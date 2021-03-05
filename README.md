@@ -61,7 +61,7 @@ Ce fichier est situé côté serveur, un seul joueur le lance puis envoyé aux a
 
 <ol>
 	<li> Attente de connexion de tous les joueurs </li>
-	<li> Creation d'un thread par joueur qui s'occupent des parties. Dans chaque thread :  </li>
+	<li> Creation d'un thread par joueur qui s'occupent de la partie. Dans chaque thread :  </li>
 	<ol> 
 		<li> Création d'un objet grid </li>
 		<li> Réception d'une touche</li> 
