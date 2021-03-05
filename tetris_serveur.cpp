@@ -86,6 +86,7 @@ int partie(grid& ma_grille, int i , int socket_descriptor){
 	}
 
 	std::cout << ma_grille.get_name() << " a terminé sa partie" << std::endl;
+	
 
 	return 1;	 
 
@@ -168,6 +169,11 @@ int main( int argc, char *argv[]  ){
 
 
 	std::cout << std::endl <<  "Lancement de la partie " << std::endl << std::endl;
+	int lancement = 1;
+	for ( int i = 0; i < nombre_joueurs; i++){		
+		write( client_descriptor[i], &lancement, sizeof(int) );
+	}
+
 
 
 

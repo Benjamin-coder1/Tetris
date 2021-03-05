@@ -62,7 +62,8 @@ int main( int argc, char *argv[]  ){
     }
 
     std::cout << std::endl << "Vous etes connecté à la partie, celle-ci débutera automatiquement des que tous les joueurs seront connectés " << std::endl << std::endl;
-
+    int lancement = 0;
+    read(socket_descriptor, &lancement, sizeof(int) );
 
     // ------------  AFFICHAGE ET COMMANDE ------------------ //
     std::chrono::time_point<std::chrono::system_clock> start, end;
