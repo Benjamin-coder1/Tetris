@@ -26,26 +26,30 @@ int partie(grid& ma_grille, int i , int socket_descriptor){
 
 	while( ma_grille.get_status_partie() ){
 
-		// on supprime ligne entiere 
+		// on supprime les lignes entieres 
 		ma_grille.clean();
 
 		// on lance nouvelle piece
 		piece p( choix_piece[ std::rand()%7] );	
 		ma_grille.verif_end(p);	
 
+		// Partie terminée
 		if (ma_grille.get_status_partie() == 0) {
-			// Protocole d'envoit  			
+			// Protocole d'envoi fin de partie 	
  			message_to_send[0] = ma_grille.get_status_partie();
  			message_to_send[1] = ma_grille.get_score();
   			bzero( &message_to_send[2], 22*10*sizeof(int) );
 
  			// envoit 
  			write(socket_descriptor, message_to_send , size_msg_to_send ); 	
+ 			break;
 		}
 
-		ma_grille.write_piece_grille(p);
 
+		// Partie non terminée
+		ma_grille.write_piece_grille(p);
 		int end = 1;
+
  		while( end ) {
 
  			// Protocole d'envoit  			
@@ -64,17 +68,14 @@ int partie(grid& ma_grille, int i , int socket_descriptor){
 			// On execute la commande
 	    	if ( (char) touch == 'a') {
 	    		ma_grille.piece_translation_G(p);
-	    		//end = ma_grille.piece_translation_B(p);
 	    	}
 
 	    	else if ( (char) touch == 'z') {
 	    		ma_grille.piece_translation_D(p);
-	    		//end = ma_grille.piece_translation_B(p);
 	    	}
 
 	    	else if ( (char) touch == 'r') {
 	    		ma_grille.piece_rotation(p);
-	    		//end = ma_grille.piece_translation_B(p);
 	    	}  
 
 	    	else {
@@ -91,21 +92,6 @@ int partie(grid& ma_grille, int i , int socket_descriptor){
 	return 1;	 
 
 }
-
-
-void affichage_score( grid* ma_grille, int nombre_joueurs, int* status_partie){
-	// affiche les score sur le serveur
-	while( *status_partie ){
-		for( int i = 0; i < nombre_joueurs - 1; i++){
-			std::cout <<  ma_grille[i].get_name() << " : " << ma_grille[i].get_score() << " | ";
-		}
-
-		std::cout << ma_grille[nombre_joueurs - 1].get_name() << " : " << ma_grille[nombre_joueurs - 1].get_score() << "\r" << std::flush;
-		std::this_thread::sleep_for( std::chrono::seconds(2));
-	}
-	
-}
-
 
 
 int main( int argc, char *argv[]  ){
@@ -144,8 +130,6 @@ int main( int argc, char *argv[]  ){
 
 	// Creation du jeu 
 	grid ma_grille[nombre_joueurs];
-	int status_partie = 1;
-	
 
 	// Connexion avec les autres joueurs
 	int client_descriptor[nombre_joueurs];
@@ -186,8 +170,6 @@ int main( int argc, char *argv[]  ){
 		liste_joueur[i] = std::thread(partie, std::ref(ma_grille[i]), i, client_descriptor[i]);
 	}
 
-	std::thread score( affichage_score, (grid* ) ma_grille, nombre_joueurs, &status_partie);
-
 	// --- FIN --- On joint tous les joueurs 
 	for (int i = 0; i < nombre_joueurs; i++){
 		liste_joueur[i].join();
@@ -195,23 +177,13 @@ int main( int argc, char *argv[]  ){
 
 	// ------------  FIN DE LA PARTIE ------------------ //
 
- 	status_partie = 0;
-	score.join();
-
-	// on affiche le nom du winner
-	int ind_max = 0;
-	for (int i = 1; i < nombre_joueurs ; i ++){
-		if( ma_grille[i].get_score() > ma_grille[ind_max].get_score() ){
-			ind_max = i;
-		}
-	}
-
-	// fermeture socket 
+	// fermeture connexion 
 	for (int i = 0; i < nombre_joueurs; i++){
 		close(client_descriptor[i]);
 	}
 
-	std::cout << std::endl << "LE WINNER EST : " << ma_grille[ind_max].get_name() << std::endl;
+	
+
 
 
 	return 1;

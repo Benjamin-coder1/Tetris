@@ -12,12 +12,11 @@
 #include <SFML/Graphics.hpp>
 
 
-
-
-
 int main( int argc, char *argv[]  ){
 
 	// ------------  CONNECTION SERVEUR ------------------ //
+
+	// recuperation informations partie
 	char nom_joueur[25];
 	std::cout << "Nom du joueur : ";
 	scanf("%s", nom_joueur);
@@ -298,12 +297,20 @@ int main( int argc, char *argv[]  ){
         if (timeElapsed>=t)
             clock.restart();
 
+        // on envoit la touche 
         write(socket_descriptor, &touch, sizeof(char));     
 
     }
 
+    // on ferme la connexion
     close(socket_descriptor);
     std::cout << std::endl << "Partie Terminée" << std::endl;
+
+
+    char nom_winner[25];
+    read(socket_descriptor, nom_winner, 25);
+    std::cout << std::endl << "LE WINNER EST : " << nom_winner << std::endl;
+
 
 
     return 1;
