@@ -155,7 +155,7 @@ int main( int argc, char *argv[]  ){
 	std::cout << std::endl <<  "Lancement de la partie " << std::endl << std::endl;
 	int lancement = 1;
 	for ( int i = 0; i < nombre_joueurs; i++){		
-		write( client_descriptor[i], &lancement, sizeof(int) );
+		write( client_descriptor[i], &lancement, sizeof(int) ); // notification lancement partie
 	}
 
 
@@ -177,15 +177,25 @@ int main( int argc, char *argv[]  ){
 
 	// ------------  FIN DE LA PARTIE ------------------ //
 
-	// fermeture connexion 
+	// on envoie le nom du winner
+	int ind_max = 0;
+	for (int i = 1; i < nombre_joueurs ; i ++){
+		if( ma_grille[i].get_score() > ma_grille[ind_max].get_score() ){
+			ind_max = i;
+		}
+	}
+
+
+	// fermeture socket 
 	for (int i = 0; i < nombre_joueurs; i++){
+		// on envoit nom winner 
+		char nom_winner[25]; memcpy(nom_winner, ma_grille[ind_max].get_name().c_str() , 25);
+		write(client_descriptor[i], nom_winner, 25 );		
+		// fermeture connexion
 		close(client_descriptor[i]);
 	}
 
-	
-
-
-
+ 
 	return 1;
 
 

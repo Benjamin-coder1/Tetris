@@ -302,22 +302,23 @@ int main( int argc, char *argv[]  ){
 
     }
 
+    // on affiche nom gagnant 
+    char nom_winner[25];
+    read(socket_descriptor, nom_winner, 25  );
+    std::cout << std::endl << "//-------------------------------------//" << std::endl;
+    std::cout << "LE WINNER EST : " << nom_winner << std::endl;
+    std::cout << "//-------------------------------------//" << std::endl;
+
     // on ferme la connexion
     close(socket_descriptor);
     std::cout << std::endl << "Partie Terminée" << std::endl;
 
 
-    char nom_winner[25];
-    read(socket_descriptor, nom_winner, 25);
-    std::cout << std::endl << "LE WINNER EST : " << nom_winner << std::endl;
+    
 
 
 
     return 1;
-
-
-
-
 
 
 }
