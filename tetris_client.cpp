@@ -9,6 +9,8 @@
 #include <iostream>
 #include <chrono>
 #include <poll.h>
+#include <random>
+#include "value_piece.cpp"
 #include <SFML/Graphics.hpp>
 
 
@@ -132,12 +134,58 @@ int main( int argc, char *argv[]  ){
     reprendre.setFillColor(sf::Color(255, 0, 204));
     reprendre.setPosition(400,450);
 
+    sf::RectangleShape rectangleRecommencer(sf::Vector2f(400, 200));
+    rectangleRecommencer.setPosition(300,200);
+    rectangleRecommencer.setFillColor(sf::Color(2,18,25));
+    rectangleRecommencer.setOutlineThickness(2.f);
+    rectangleRecommencer.setOutlineColor(sf::Color(255, 0, 204));
+
+    sf::RectangleShape rectangleFin(sf::Vector2f(400, 200));
+    rectangleFin.setPosition(300,600);
+    rectangleFin.setFillColor(sf::Color(2,18,25));
+    rectangleFin.setOutlineThickness(2.f);
+    rectangleFin.setOutlineColor(sf::Color(255, 0, 204));
+
+    sf::Text recommencer;
+    recommencer.setFont(font);
+    recommencer.setString("RECOMMENCER");
+    recommencer.setCharacterSize(60);
+    recommencer.setFillColor(sf::Color(255, 0, 204));
+    recommencer.setPosition(400,250);
+
+    sf::Text quitter;
+    quitter.setFont(font);
+    quitter.setString("QUITTER");
+    quitter.setCharacterSize(60);
+    quitter.setFillColor(sf::Color(255, 0, 204));
+    quitter.setPosition(400,650);
+
+    sf::Text perdu;
+    perdu.setFont(font);
+    perdu.setString("PERDU");
+    perdu.setCharacterSize(60);
+    perdu.setFillColor(sf::Color(255, 0, 204));
+    perdu.setPosition(400,50);
+
     sf::Text pause;
     pause.setFont(font);
     pause.setString("PAUSE");
     pause.setCharacterSize(40);
     pause.setFillColor(sf::Color(255, 0, 204));
     pause.setPosition(800,700);
+
+    sf::RectangleShape rectanglePieceSuivante(sf::Vector2f(180, 200));
+    rectanglePieceSuivante.setPosition(750,150);
+    rectanglePieceSuivante.setFillColor(sf::Color(2,18,25));
+    rectanglePieceSuivante.setOutlineThickness(2.f);
+    rectanglePieceSuivante.setOutlineColor(sf::Color(255, 0, 204));
+
+    sf::Text textPieceSuivante;
+    textPieceSuivante.setFont(font);
+    textPieceSuivante.setString("PIECE SUIVANTE");
+    textPieceSuivante.setCharacterSize(40);
+    textPieceSuivante.setFillColor(sf::Color(255, 0, 204));
+    textPieceSuivante.setPosition(740,50);
 
     sf::RectangleShape lineVertical(sf::Vector2f(880,2));
     lineVertical.rotate(90);
@@ -152,7 +200,7 @@ int main( int argc, char *argv[]  ){
     sf::Time t = sf::seconds(1.0f);
 
 
-
+    int piece_suivante;
     int indicateur = 1;
     int indicInit = 0;
     bool out;
@@ -163,7 +211,7 @@ int main( int argc, char *argv[]  ){
         out = false;
 
         // recoit 
-        int size_msg_to_rcv = 2*sizeof(int) + 22*10*sizeof(int);
+        int size_msg_to_rcv = 3*sizeof(int) + 22*10*sizeof(int);
         int* message_to_rcv = (int *) malloc( size_msg_to_rcv);
         read(socket_descriptor, message_to_rcv , size_msg_to_rcv );
 
@@ -171,7 +219,8 @@ int main( int argc, char *argv[]  ){
         status_partie = message_to_rcv[0];
         if ( !status_partie ) break; 
         score = message_to_rcv[1];
-        memcpy( grid_tab, &message_to_rcv[2], 22*10*sizeof(int) );   
+        piece_suivante = message_to_rcv[2];
+        memcpy( grid_tab, &message_to_rcv[3], 22*10*sizeof(int) );   
     
         //std::cout << "Le score est de : " << score << "\r" << std::flush << std::endl << std::endl ;
         std::string sco = std::to_string(score);
@@ -184,6 +233,39 @@ int main( int argc, char *argv[]  ){
             window.draw(score2);
             window.draw(rectangleScore);
             indicInit = 1;
+        }
+
+        window.draw(rectanglePieceSuivante);
+        window.draw(textPieceSuivante);
+
+		for (int i =0;i<4;i++) {
+            for(int j=0;j<4;j++) {
+                if (piece_value[piece_suivante][1][i][j] > 0) {
+
+                    int indice = piece_value[piece_suivante][1][i][j];
+                    if (indice == 1)
+                        formeBase.setFillColor(sf::Color(254,248,76));
+                    if (indice == 2)
+                        formeBase.setFillColor(sf::Color(81,225,252));
+                    if (indice == 3)
+                        formeBase.setFillColor(sf::Color(233,61,30));
+                    if (indice == 4)
+                        formeBase.setFillColor(sf::Color(121,174,61));
+                    if (indice == 5)
+                        formeBase.setFillColor(sf::Color(246,146,48));
+                    if (indice == 6)
+                        formeBase.setFillColor(sf::Color(241,110,185));
+                    if (indice == 7)
+                        formeBase.setFillColor(sf::Color(148,54,146));
+
+                    
+
+                    formeBase.setPosition(730+40*j-1,180+40*i+1);
+                    formeBase.setOutlineThickness(2.f);
+                    formeBase.setOutlineColor(sf::Color(0,0,0));
+                    window.draw(formeBase);
+                }
+            }
         }
 
         window.draw(rectangleScore);

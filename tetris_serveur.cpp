@@ -21,8 +21,9 @@ name choix_piece[7] = {O, I, S, Z, L, J, T};
 int partie(grid& ma_grille, int i , int socket_descriptor){
 
 	// on lance une partie par joueur avec des thread
-	int size_msg_to_send = 2*sizeof(int) + 22*10*sizeof(int);
+	int size_msg_to_send = 3*sizeof(int) + 22*10*sizeof(int);
 	int* message_to_send = (int *) malloc( size_msg_to_send);
+	int piece_suivante = std::rand()%7;
 
 	while( ma_grille.get_status_partie() ){
 
@@ -30,15 +31,17 @@ int partie(grid& ma_grille, int i , int socket_descriptor){
 		ma_grille.clean();
 
 		// on lance nouvelle piece
-		piece p( choix_piece[ std::rand()%7] );	
-		ma_grille.verif_end(p);	
+		piece p( choix_piece[piece_suivante] );	
+		ma_grille.verif_end(p);
+		piece_suivante = std::rand()%7;	
 
 		// Partie terminée
 		if (ma_grille.get_status_partie() == 0) {
 			// Protocole d'envoi fin de partie 	
  			message_to_send[0] = ma_grille.get_status_partie();
  			message_to_send[1] = ma_grille.get_score();
-  			bzero( &message_to_send[2], 22*10*sizeof(int) );
+ 			message_to_send[2] = piece_suivante;
+  			bzero( &message_to_send[3], 22*10*sizeof(int) );
 
  			// envoit 
  			write(socket_descriptor, message_to_send , size_msg_to_send ); 	
@@ -55,7 +58,8 @@ int partie(grid& ma_grille, int i , int socket_descriptor){
  			// Protocole d'envoit  			
  			message_to_send[0] = ma_grille.get_status_partie();
  			message_to_send[1] = ma_grille.get_score();
- 			memcpy( &message_to_send[2], ma_grille.data(), 22*10*sizeof(int) );
+ 			message_to_send[2] = piece_suivante;
+ 			memcpy( &message_to_send[3], ma_grille.data(), 22*10*sizeof(int) );
 
  			// envoit 
  			write(socket_descriptor, message_to_send , size_msg_to_send ); 			
