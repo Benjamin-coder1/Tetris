@@ -7,6 +7,7 @@ Comment lancer le jeu ?
 	>> ./tetris_client  pour chaque jouer ( "localhost" si jeu en local)
 
 La partie se lance : en local c'est immédiat /  en ligne la connexion peut être longue, c'est pourquoi il est plutot recommandé de jouer en réseau local (comme par exemple en partage de connexion) 
+Pour jouer utiliser les fleches de direction, celle du haut permettant de tourner les autres d'aller a droit / gauche / en bas.
 
 Comment trouver l'adresse IP ? 
 <ul>
