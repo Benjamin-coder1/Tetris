@@ -11,7 +11,7 @@ La partie se lance : en local c'est immédiat /  en ligne la connexion peut êtr
 Comment trouver l'adresse IP ? 
 <ul>
 	<li> <i> <b> Window </i> </b> : paramètres > réseaux > wifi > propriété du matériel > IPV4  </li>
- 	<li> <i> <b> linux </i> </b>  : Tapez la commande ifconfig dans le terminal /li>
+ 	<li> <i> <b> linux </i> </b>  : Tapez la commande ifconfig dans le terminal </li>
 </ul>
 
 
