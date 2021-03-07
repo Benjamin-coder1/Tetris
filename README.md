@@ -1,10 +1,10 @@
 # TETRIS
 
-Comment lancer le jeux ? 
+Comment lancer le jeu ? 
 
 	>> bash compilation.sh 
 	>> ./tetris      sur un terminal
-	>> ./tetris_client  pour chaque jouer ( "localhost" si jeux en local)
+	>> ./tetris_client  pour chaque jouer ( "localhost" si jeu en local)
 
 La partie se lance : en local c'est immédiat /  en ligne la connexion peut être longue et parfois infructueuse. C'est pourquoi ol est recommandé de plutot jouer en réseau local (comme par exemple en partage de connexion) 
 
