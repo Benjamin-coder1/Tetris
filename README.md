@@ -15,7 +15,7 @@ Comment trouver l'adresse IP ?
 </ul>
 
 
-Le jeu fonctionne sous forme client / serveur : 
+Le jeu  peut permettre a un joueur de jouer seul ou bien a plusieurs joueurs de jouer ensemble. Chaque joueur dispose de sa grille, le gagnant est celui qui obtient le plus haut score. L'architecture logiciel est sous forme client / serveur  : 
 <ul>
 	<li> <i> <b> Client </i> </b> : Reçoit la grille du joueur et l'affiche / capte les touches et les envois  </li>
  	<li> <i> <b> Serveur </i> </b>  : Pour chaque joueur, recoit les touches puis met à jour la grille et l'envoie </li>
