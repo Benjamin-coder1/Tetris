@@ -78,7 +78,9 @@ int main( int argc, char *argv[]  ){
 
     float timeElapsed = 0.0;
 
+	int ratio = (sf::VideoMode::getDesktopMode().height - 200) / 1000;
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "TETRIS");
+	window.setFramerateLimit(30);
 
     sf::RectangleShape fond(sf::Vector2f(1000, 1000));
     fond.setFillColor(sf::Color(4,20,40));
@@ -226,14 +228,14 @@ int main( int argc, char *argv[]  ){
         std::string sco = std::to_string(score);
         score3.setString(sco);
 
-        if (indicInit == 0) {
+        //if (indicInit == 0) {
             window.draw(fond);
             window.draw(titre);
             window.draw(pause);
             window.draw(score2);
             window.draw(rectangleScore);
             indicInit = 1;
-        }
+        //}
 
         window.draw(rectanglePieceSuivante);
         window.draw(textPieceSuivante);
