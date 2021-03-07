@@ -168,23 +168,32 @@ grid::piece_rotation(piece& la_piece){
 	}
 	*/
 	
-	(*this).suppress_piece_grille(la_piece);
+	
 
 	if (la_piece.get_name() == 2) {
 		if( la_piece.get_y() == 0 || la_piece.get_y() == 1) {
+			for (int i = 0; i < 4; i++) {
+				if (grid_tab[la_piece.get_x()+i][la_piece.get_y()+1] != 0)
+					return 0;
+			}
 			this->piece_translation_D(la_piece);
 			this->piece_rotation(la_piece);
-			(*this).write_piece_grille(la_piece); 
+			(*this).write_piece_grille(la_piece);
 			return 1;
 		}
 		if(la_piece.get_y() == 9 || la_piece.get_y() == 8) {
+
+			for (int i = 0; i < 4; i++) {
+				if (grid_tab[la_piece.get_x()+i][la_piece.get_y()-1] != 0)
+					return 0;
+			}
 			this->piece_translation_G(la_piece);
 			this->piece_rotation(la_piece);
 			(*this).write_piece_grille(la_piece); 
 			return 1;
 		}
 	}
-
+	(*this).suppress_piece_grille(la_piece);
 	// Si la piece est dans un bord on la decale pour pouvoir la faire pivoter sans etre gener par la limite
 	if( la_piece.get_y() == 0) {
 		this->piece_translation_D(la_piece);
