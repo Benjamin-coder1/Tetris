@@ -51,7 +51,7 @@ Il y a 7 pièces : <i><b> O  I  S  Z  L  J  T </i></b> chaque pièce est représ
 
 ## tetris_client.cpp 
 
-Ce fichier se trouve côté client, elle est lancée par chaque joueur afin de se connecter au serveur et de pouvoir jouer. L'algorithme fonction ainsi
+Ce fichier se trouve côté client, elle est lancée par chaque joueur afin de se connecter au serveur et de pouvoir jouer. On utilise le module sfml pour gérer l'affichage, on crée alors une fenêtre puis des objets(Rectangle, Textes) que l'on incruste à la fenêtre au fil de l'algorithme. Il suffit alors de regarder dans la grille quelle valeur donc piece on a puis d'afficher un carré de la couleur correspondante. L'algorithme fonctionne ainsi
 
 <ol>
 	<li> Établissement d'une connexion avec le serveur et attente du lancement de la partie  </li>
