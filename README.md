@@ -6,7 +6,13 @@ Comment lancer le jeux ?
 	>> ./tetris      sur un terminal
 	>> ./tetris_client  pour chaque jouer ( "localhost" si jeux en local)
 
-La partie se lance : en local c'est immédiat /  en ligne la connexion peut être longue et infructueuse (elle fonctionne bien en local)
+La partie se lance : en local c'est immédiat /  en ligne la connexion peut être longue et parfois infructueuse. C'est pourquoi ol est recommandé de plutot jouer en réseau local (comme par exemple en partage de connexion) 
+
+Comment trouver l'adresse IP ? 
+<ul>
+	<li> <i> <b> Window </i> </b> : paramètres > réseaux > wifi > propriété du matériel > IPV4  </li>
+ 	<li> <i> <b> linux </i> </b>  : Tapez la commande ifconfig dans le terminal /li>
+</ul>
 
 
 Le jeu fonctionne sous forme client / serveur : 
