@@ -1,12 +1,13 @@
 # TETRIS
 
-Comment lancer le jeux ? 
+Comment lancer le jeu ? 
 
 	>> bash compilation.sh 
 	>> ./tetris      sur un terminal
-	>> ./tetris_client  pour chaque jouer ( "localhost" si jeux en local)
+	>> ./tetris_client  pour chaque jouer ( "localhost" si jeu en local)
 
-La partie se lance : en local c'est immédiat /  en ligne la connexion peut être longue et parfois infructueuse. C'est pourquoi ol est recommandé de plutot jouer en réseau local (comme par exemple en partage de connexion) 
+La partie se lance : en local c'est immédiat /  en ligne la connexion peut être longue, c'est pourquoi il est plutot recommandé de jouer en réseau local (comme par exemple en partage de connexion) 
+Pour jouer utiliser les fleches de direction, celle du haut permettant de tourner les autres d'aller a droit / gauche / en bas.
 
 Comment trouver l'adresse IP ? 
 <ul>
@@ -50,7 +51,7 @@ Il y a 7 pièces : <i><b> O  I  S  Z  L  J  T </i></b> chaque pièce est représ
 
 ## tetris_client.cpp 
 
-Ce fichier se trouve côté client, elle est lancée par chaque joueur afin de se connecter au serveur et de pouvoir jouer. L'algorithme fonction ainsi
+Ce fichier se trouve côté client, elle est lancée par chaque joueur afin de se connecter au serveur et de pouvoir jouer. On utilise le module sfml pour gérer l'affichage, on crée alors une fenêtre puis des objets(Rectangle, Textes) que l'on incruste à la fenêtre au fil de l'algorithme. Il suffit alors de regarder dans la grille quelle valeur donc piece on a puis d'afficher un carré de la couleur correspondante. L'algorithme fonctionne ainsi
 
 <ol>
 	<li> Établissement d'une connexion avec le serveur et attente du lancement de la partie  </li>
