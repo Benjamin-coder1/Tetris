@@ -90,14 +90,14 @@ int main( int argc, char *argv[]  ){
 
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "TETRIS");
     window.setFramerateLimit(30);
-    window.setSize(sf::Vector2u(750, 750));
+    //window.setSize(sf::Vector2u(1000, 750));
 
 
     sf::RectangleShape fond(sf::Vector2f(1000, 1000));
     fond.setFillColor(sf::Color(4,20,40));
 
-    sf::RectangleShape rectangle(sf::Vector2f(400, 880));
-    rectangle.setPosition(300,80);
+    sf::RectangleShape rectangle(sf::Vector2f(300, 660));
+    rectangle.setPosition(300,110);
     rectangle.setFillColor(sf::Color(4, 47, 80));
     rectangle.setOutlineThickness(5.f);
     rectangle.setOutlineColor(sf::Color(255, 0, 204));
@@ -109,7 +109,7 @@ int main( int argc, char *argv[]  ){
     titre.setString("TETRIS");
     titre.setCharacterSize(70);
     titre.setFillColor(sf::Color(255, 0, 204));
-    titre.setPosition(430,1);
+    titre.setPosition(390,1);
 
     sf::Text score2;
     score2.setFont(font);
@@ -149,14 +149,14 @@ int main( int argc, char *argv[]  ){
     textPieceSuivante.setFillColor(sf::Color(255, 0, 204));
     textPieceSuivante.setPosition(740,50);
 
-    sf::RectangleShape lineVertical(sf::Vector2f(880,2));
+    sf::RectangleShape lineVertical(sf::Vector2f(660,2));
     lineVertical.rotate(90);
     lineVertical.setFillColor(sf::Color(129, 23, 142));
 
-    sf::RectangleShape lineHorizontal(sf::Vector2f(400,2));
+    sf::RectangleShape lineHorizontal(sf::Vector2f(300,2));
     lineHorizontal.setFillColor(sf::Color(129, 23, 142));
 
-    sf::RectangleShape formeBase(sf::Vector2f(38,38));
+    sf::RectangleShape formeBase(sf::Vector2f(28,28));
 
     sf::Clock clock;
     sf::Time t = sf::seconds(1.0f);
@@ -244,7 +244,7 @@ int main( int argc, char *argv[]  ){
 
                     
 
-                    formeBase.setPosition(730+40*j-1,180+40*i+1);
+                    formeBase.setPosition(730+30*j-1,180+30*i+1);
                     formeBase.setOutlineThickness(2.f);
                     formeBase.setOutlineColor(sf::Color(0,0,0));
                     window.draw(formeBase);
@@ -254,11 +254,11 @@ int main( int argc, char *argv[]  ){
 
         window.draw(rectangle);
         for (int i=0;i<9;i++) {
-            lineVertical.setPosition(300+40*(i+1)-1,110-30);
+            lineVertical.setPosition(300+30*(i+1)-1,110);
             window.draw(lineVertical);
         }
         for (int i=0;i<21;i++) {
-            lineHorizontal.setPosition(300,110+40*(i+1)-1-30);
+            lineHorizontal.setPosition(300,110+30*(i+1)-1);
             window.draw(lineHorizontal);
         }
         for (int i =0;i<22;i++) {
@@ -281,7 +281,7 @@ int main( int argc, char *argv[]  ){
                     if (indice == 7)
                         formeBase.setFillColor(sf::Color(148,54,146));
 
-                    formeBase.setPosition(300+40*j-1,110+40*i+1-30);
+                    formeBase.setPosition(300+30*j-1,110+30*i+1);
                     formeBase.setOutlineThickness(2.f);
                     formeBase.setOutlineColor(sf::Color(0,0,0));
                     window.draw(formeBase);
