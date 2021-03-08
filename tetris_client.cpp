@@ -167,7 +167,7 @@ int main( int argc, char *argv[]  ){
     int indicInit = 0;
     bool out;
     int decalage;
-    
+    window.setSize(sf::Vector2u(750, 750));
     
     while ( window.isOpen() ){
 
@@ -287,6 +287,7 @@ int main( int argc, char *argv[]  ){
         }
 
         window.display();
+
 
         // ----- RECEPTION COMMANDE ------- //
         sf::Event event;
