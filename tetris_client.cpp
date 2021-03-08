@@ -83,7 +83,6 @@ int main( int argc, char *argv[]  ){
     int* grid_tab = (int *) malloc( 22*10*sizeof(int));
 
     int status_partie = 1;
-    int score = 0;
 
     // ******************* INTERFACE GRAPHIQUE INITIALISATION ******************* //
 
@@ -176,8 +175,6 @@ int main( int argc, char *argv[]  ){
 
     // variable de jeu
     int piece_suivante;
-    int indicateur = 1;
-    int indicInit = 0;
     bool out;
     int decalage;
 
@@ -195,7 +192,6 @@ int main( int argc, char *argv[]  ){
         window.draw(fond);
         window.draw(titre);
         window.draw(score2);
-        indicInit = 1;
 
         // Protocole reception 
         status_partie = message_to_rcv[0];
@@ -224,8 +220,6 @@ int main( int argc, char *argv[]  ){
         }
 
         memcpy( grid_tab, &message_to_rcv[2+nombre_joueurs], 22*10*sizeof(int) );   
-    
-        //std::cout << "Le score est de : " << score << "\r" << std::flush << std::endl << std::endl ;
 
 
         window.draw(rectanglePieceSuivante);
@@ -325,22 +319,18 @@ int main( int argc, char *argv[]  ){
 
                     if (event.key.code == sf::Keyboard::Left) {
                         touch = 'a';
-                        indicateur = 1;
                     }
 
                     if (event.key.code == sf::Keyboard::Right) {
                         touch = 'z';
-                        indicateur = 1;
                     }
 
                     if (event.key.code == sf::Keyboard::Down) {
                         touch = 'x';
-                        indicateur = 1;
                     }
 
                     if (event.key.code == sf::Keyboard::Up) {
                         touch = 'r';
-                        indicateur = 1;
                     }
                     out = true;
                 }
