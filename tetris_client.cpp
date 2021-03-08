@@ -80,6 +80,7 @@ int main( int argc, char *argv[]  ){
 
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "TETRIS");
 	window.setFramerateLimit(30);
+	window.setSize(sf::Vector2u(750, 750));
 
 
     sf::RectangleShape fond(sf::Vector2f(1000, 1000));
@@ -167,7 +168,6 @@ int main( int argc, char *argv[]  ){
     int indicInit = 0;
     bool out;
     int decalage;
-    window.setSize(sf::Vector2u(750, 750));
     
     while ( window.isOpen() ){
 
