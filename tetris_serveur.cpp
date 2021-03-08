@@ -18,10 +18,18 @@
 name choix_piece[7] = {O, I, S, Z, L, J, T};
 
 
-int partie(grid& ma_grille, int i , int socket_descriptor){
+int partie(grid& ma_grille, int i , int socket_descriptor, int nombre_joueurs, int* grille_scores){
+
+	int size_msg_to_send1 = 2*sizeof(int);
+	int* message_to_send1 = (int *) malloc( size_msg_to_send1);
+
+	message_to_send1[0] = nombre_joueurs;
+	message_to_send1[1] = i;
+	write(socket_descriptor, message_to_send1 , size_msg_to_send1 ); 	
+
 
 	// on lance une partie par joueur avec des thread
-	int size_msg_to_send = 3*sizeof(int) + 22*10*sizeof(int);
+	int size_msg_to_send = 2*sizeof(int) + 22*10*sizeof(int) + nombre_joueurs*sizeof(int);
 	int* message_to_send = (int *) malloc( size_msg_to_send);
 	int piece_suivante = std::rand()%7;
 
@@ -30,6 +38,7 @@ int partie(grid& ma_grille, int i , int socket_descriptor){
 		// on supprime les lignes entieres 
 		ma_grille.clean();
 
+		grille_scores[i] = ma_grille.get_score();
 		// on lance nouvelle piece
 		piece p( choix_piece[piece_suivante] );	
 		ma_grille.verif_end(p);
@@ -39,15 +48,17 @@ int partie(grid& ma_grille, int i , int socket_descriptor){
 		if (ma_grille.get_status_partie() == 0) {
 			// Protocole d'envoi fin de partie 	
  			message_to_send[0] = ma_grille.get_status_partie();
- 			message_to_send[1] = ma_grille.get_score();
- 			message_to_send[2] = piece_suivante;
-  			bzero( &message_to_send[3], 22*10*sizeof(int) );
+ 			//message_to_send[1] = ma_grille.get_score();
+ 			message_to_send[1] = piece_suivante;
+ 			for(int j = 0; j < nombre_joueurs; j++){
+  				message_to_send[2 + j] = grille_scores[j];
+  			}
+  			bzero( &message_to_send[2 + nombre_joueurs], 22*10*sizeof(int) );
 
  			// envoit 
  			write(socket_descriptor, message_to_send , size_msg_to_send ); 	
  			break;
 		}
-
 
 		// Partie non terminée
 		ma_grille.write_piece_grille(p);
@@ -57,9 +68,12 @@ int partie(grid& ma_grille, int i , int socket_descriptor){
 
  			// Protocole d'envoit  			
  			message_to_send[0] = ma_grille.get_status_partie();
- 			message_to_send[1] = ma_grille.get_score();
- 			message_to_send[2] = piece_suivante;
- 			memcpy( &message_to_send[3], ma_grille.data(), 22*10*sizeof(int) );
+ 			//message_to_send[1] = ma_grille.get_score();
+ 			message_to_send[1] = piece_suivante;
+ 			for(int j = 0; j < nombre_joueurs; j++){
+  				message_to_send[2 + j] = grille_scores[j];
+  			}
+ 			memcpy( &message_to_send[2 + nombre_joueurs], ma_grille.data(), 22*10*sizeof(int) );
 
  			// envoit 
  			write(socket_descriptor, message_to_send , size_msg_to_send ); 			
@@ -134,6 +148,7 @@ int main( int argc, char *argv[]  ){
 
 	// Creation du jeu 
 	grid ma_grille[nombre_joueurs];
+	int grille_scores[nombre_joueurs];
 
 	// Connexion avec les autres joueurs
 	int client_descriptor[nombre_joueurs];
@@ -171,7 +186,7 @@ int main( int argc, char *argv[]  ){
 	// --- DEBUT --- on lance une partie par thread
 	std::thread liste_joueur[nombre_joueurs];
 	for (int i = 0; i < nombre_joueurs; i++){
-		liste_joueur[i] = std::thread(partie, std::ref(ma_grille[i]), i, client_descriptor[i]);
+		liste_joueur[i] = std::thread(partie, std::ref(ma_grille[i]), i, client_descriptor[i], nombre_joueurs,(int*) grille_scores);
 	}
 
 	// --- FIN --- On joint tous les joueurs 

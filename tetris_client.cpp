@@ -78,9 +78,9 @@ int main( int argc, char *argv[]  ){
 
     float timeElapsed = 0.0;
 
-	int ratio = (sf::VideoMode::getDesktopMode().height - 200) / 1000;
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "TETRIS");
 	window.setFramerateLimit(30);
+
 
     sf::RectangleShape fond(sf::Vector2f(1000, 1000));
     fond.setFillColor(sf::Color(4,20,40));
@@ -117,64 +117,17 @@ int main( int argc, char *argv[]  ){
     score3.setFillColor(sf::Color(255, 0, 204));
     score3.setPosition(810,480);
 
+    sf::Text joueur;
+    joueur.setFont(font);
+    joueur.setString("JOUEUR");
+    joueur.setCharacterSize(40);
+    joueur.setFillColor(sf::Color(255, 0, 204));
+
     sf::RectangleShape rectangleScore(sf::Vector2f(180, 110));
     rectangleScore.setPosition(750,470);
     rectangleScore.setFillColor(sf::Color(2,18,25));
     rectangleScore.setOutlineThickness(2.f);
     rectangleScore.setOutlineColor(sf::Color(255, 0, 204));
-
-    sf::RectangleShape rectanglePause(sf::Vector2f(400, 200));
-    rectanglePause.setPosition(300,400);
-    rectanglePause.setFillColor(sf::Color(2,18,25));
-    rectanglePause.setOutlineThickness(2.f);
-    rectanglePause.setOutlineColor(sf::Color(255, 0, 204));
-
-    sf::Text reprendre;
-    reprendre.setFont(font);
-    reprendre.setString("REPRENDRE");
-    reprendre.setCharacterSize(60);
-    reprendre.setFillColor(sf::Color(255, 0, 204));
-    reprendre.setPosition(400,450);
-
-    sf::RectangleShape rectangleRecommencer(sf::Vector2f(400, 200));
-    rectangleRecommencer.setPosition(300,200);
-    rectangleRecommencer.setFillColor(sf::Color(2,18,25));
-    rectangleRecommencer.setOutlineThickness(2.f);
-    rectangleRecommencer.setOutlineColor(sf::Color(255, 0, 204));
-
-    sf::RectangleShape rectangleFin(sf::Vector2f(400, 200));
-    rectangleFin.setPosition(300,600);
-    rectangleFin.setFillColor(sf::Color(2,18,25));
-    rectangleFin.setOutlineThickness(2.f);
-    rectangleFin.setOutlineColor(sf::Color(255, 0, 204));
-
-    sf::Text recommencer;
-    recommencer.setFont(font);
-    recommencer.setString("RECOMMENCER");
-    recommencer.setCharacterSize(60);
-    recommencer.setFillColor(sf::Color(255, 0, 204));
-    recommencer.setPosition(400,250);
-
-    sf::Text quitter;
-    quitter.setFont(font);
-    quitter.setString("QUITTER");
-    quitter.setCharacterSize(60);
-    quitter.setFillColor(sf::Color(255, 0, 204));
-    quitter.setPosition(400,650);
-
-    sf::Text perdu;
-    perdu.setFont(font);
-    perdu.setString("PERDU");
-    perdu.setCharacterSize(60);
-    perdu.setFillColor(sf::Color(255, 0, 204));
-    perdu.setPosition(400,50);
-
-    sf::Text pause;
-    pause.setFont(font);
-    pause.setString("PAUSE");
-    pause.setCharacterSize(40);
-    pause.setFillColor(sf::Color(255, 0, 204));
-    pause.setPosition(800,700);
 
     sf::RectangleShape rectanglePieceSuivante(sf::Vector2f(180, 200));
     rectanglePieceSuivante.setPosition(750,150);
@@ -201,11 +154,19 @@ int main( int argc, char *argv[]  ){
     sf::Clock clock;
     sf::Time t = sf::seconds(1.0f);
 
+    int size_msg_to_rcv1 = 2*sizeof(int);
+    int* message_to_rcv1 = (int *) malloc( size_msg_to_rcv1);
+    read(socket_descriptor, message_to_rcv1 , size_msg_to_rcv1 );
+    int nombre_joueurs = message_to_rcv1[0];
+    int numero_joueur = message_to_rcv1[1];
+
+    int grille_scores[nombre_joueurs];
 
     int piece_suivante;
     int indicateur = 1;
     int indicInit = 0;
     bool out;
+    int decalage;
     
     
     while ( window.isOpen() ){
@@ -213,29 +174,47 @@ int main( int argc, char *argv[]  ){
         out = false;
 
         // recoit 
-        int size_msg_to_rcv = 3*sizeof(int) + 22*10*sizeof(int);
+        int size_msg_to_rcv = 2*sizeof(int) + 22*10*sizeof(int) + nombre_joueurs*sizeof(int);
         int* message_to_rcv = (int *) malloc( size_msg_to_rcv);
         read(socket_descriptor, message_to_rcv , size_msg_to_rcv );
+
+        window.draw(fond);
+        window.draw(titre);
+        window.draw(score2);
+        indicInit = 1;
 
         // Protocole reception 
         status_partie = message_to_rcv[0];
         if ( !status_partie ) break; 
-        score = message_to_rcv[1];
-        piece_suivante = message_to_rcv[2];
-        memcpy( grid_tab, &message_to_rcv[3], 22*10*sizeof(int) );   
+        piece_suivante = message_to_rcv[1];
+
+        decalage = 180;
+        for(int j = 0; j < nombre_joueurs; j++){
+    		if (j == numero_joueur) {
+			    score3.setPosition(810,510);
+			    rectangleScore.setPosition(750,500);
+			    joueur.setPosition(785,440);
+    		}
+    		else {
+			    score3.setPosition(810,510 + decalage);
+			    rectangleScore.setPosition(750,500 + decalage);
+			    joueur.setPosition(785,440+decalage);
+			    decalage += 180;
+    		}
+    		window.draw(rectangleScore);
+    		std::string sco = std::to_string((int) message_to_rcv[2+j]);
+        	score3.setString(sco);
+			window.draw(score3);
+			joueur.setString( "JOUEUR" + std::to_string(j+1));
+			window.draw(joueur);
+		}
+
+        memcpy( grid_tab, &message_to_rcv[2+nombre_joueurs], 22*10*sizeof(int) );   
     
         //std::cout << "Le score est de : " << score << "\r" << std::flush << std::endl << std::endl ;
-        std::string sco = std::to_string(score);
-        score3.setString(sco);
 
-        //if (indicInit == 0) {
-            window.draw(fond);
-            window.draw(titre);
-            window.draw(pause);
-            window.draw(score2);
-            window.draw(rectangleScore);
-            indicInit = 1;
-        //}
+
+
 
         window.draw(rectanglePieceSuivante);
         window.draw(textPieceSuivante);
@@ -270,8 +249,6 @@ int main( int argc, char *argv[]  ){
             }
         }
 
-        window.draw(rectangleScore);
-        window.draw(score3);
         window.draw(rectangle);
         for (int i=0;i<9;i++) {
             lineVertical.setPosition(300+40*(i+1)-1,110);
@@ -308,6 +285,7 @@ int main( int argc, char *argv[]  ){
                 }
             }
         }
+
         window.display();
 
         // ----- RECEPTION COMMANDE ------- //
@@ -349,31 +327,6 @@ int main( int argc, char *argv[]  ){
                         indicateur = 1;
                     }
                     out = true;
-                }
-
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                    sf::Vector2i globalPosition = sf::Mouse::getPosition(window);
-                    if ( 800 < globalPosition.x && globalPosition.x < 900 && 700 < globalPosition.y && globalPosition.y < 800) {
-                        window.draw(fond2);
-                        window.draw(rectanglePause);
-                        window.draw(reprendre);
-                        window.display();
-                        int indic = 0;
-                        while (indic == 0) {
-                            window.pollEvent(event);
-                            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                                globalPosition = sf::Mouse::getPosition(window);
-                                if ( 200 < globalPosition.x && globalPosition.x < 600 && 200 < globalPosition.y && globalPosition.y < 600) {
-                                    indic = 1;
-                                    indicInit = 0;
-                                }
-                            }
-                            if (event.type == sf::Event::Closed) {
-                                window.close();
-                                return 0;
-                            }
-                        }
-                    }
                 }
             }
         }
