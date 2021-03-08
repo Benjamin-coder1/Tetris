@@ -96,11 +96,8 @@ int main( int argc, char *argv[]  ){
     sf::RectangleShape fond(sf::Vector2f(1000, 1000));
     fond.setFillColor(sf::Color(4,20,40));
 
-    sf::RectangleShape fond2(sf::Vector2f(1000, 1000));
-    fond2.setFillColor(sf::Color(0,0,0,128));
-
     sf::RectangleShape rectangle(sf::Vector2f(400, 880));
-    rectangle.setPosition(300,110);
+    rectangle.setPosition(300,80);
     rectangle.setFillColor(sf::Color(4, 47, 80));
     rectangle.setOutlineThickness(5.f);
     rectangle.setOutlineColor(sf::Color(255, 0, 204));
@@ -110,9 +107,9 @@ int main( int argc, char *argv[]  ){
     sf::Text titre;
     titre.setFont(font);
     titre.setString("TETRIS");
-    titre.setCharacterSize(80);
+    titre.setCharacterSize(70);
     titre.setFillColor(sf::Color(255, 0, 204));
-    titre.setPosition(420,5);
+    titre.setPosition(430,1);
 
     sf::Text score2;
     score2.setFont(font);
@@ -257,11 +254,11 @@ int main( int argc, char *argv[]  ){
 
         window.draw(rectangle);
         for (int i=0;i<9;i++) {
-            lineVertical.setPosition(300+40*(i+1)-1,110);
+            lineVertical.setPosition(300+40*(i+1)-1,110-30);
             window.draw(lineVertical);
         }
         for (int i=0;i<21;i++) {
-            lineHorizontal.setPosition(300,110+40*(i+1)-1);
+            lineHorizontal.setPosition(300,110+40*(i+1)-1-30);
             window.draw(lineHorizontal);
         }
         for (int i =0;i<22;i++) {
@@ -284,7 +281,7 @@ int main( int argc, char *argv[]  ){
                     if (indice == 7)
                         formeBase.setFillColor(sf::Color(148,54,146));
 
-                    formeBase.setPosition(300+40*j-1,110+40*i+1);
+                    formeBase.setPosition(300+40*j-1,110+40*i+1-30);
                     formeBase.setOutlineThickness(2.f);
                     formeBase.setOutlineColor(sf::Color(0,0,0));
                     window.draw(formeBase);
