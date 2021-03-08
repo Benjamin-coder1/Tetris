@@ -20,12 +20,8 @@ name choix_piece[7] = {O, I, S, Z, L, J, T};
 
 int partie(grid& ma_grille, int i , int socket_descriptor, int nombre_joueurs, int* grille_scores){
 
-	int size_msg_to_send1 = 2*sizeof(int);
-	int* message_to_send1 = (int *) malloc( size_msg_to_send1);
-
-	message_to_send1[0] = nombre_joueurs;
-	message_to_send1[1] = i;
-	write(socket_descriptor, message_to_send1 , size_msg_to_send1 ); 	
+	int numero_joueur = i;
+	write(socket_descriptor, &numero_joueur , sizeof(int) ); 	
 
 
 	// on lance une partie par joueur avec des thread
@@ -171,12 +167,23 @@ int main( int argc, char *argv[]  ){
 	}
 
 
-	std::cout << std::endl <<  "Lancement de la partie " << std::endl << std::endl;
-	int lancement = 1;
+	std::cout << std::endl <<  "Lancement de la partie " << std::endl << std::endl;	
 	for ( int i = 0; i < nombre_joueurs; i++){		
-		write( client_descriptor[i], &lancement, sizeof(int) ); // notification lancement partie
+		write( client_descriptor[i], &nombre_joueurs, sizeof(int) ); // notification lancement partie
 	}
 
+	// envoit de tous les noms
+	char* name = (char *) malloc(25*nombre_joueurs*sizeof(char) );
+	// on envois les noms de tous les joueurs 
+	for (int i = 0; i < nombre_joueurs; i++){
+		// on ecrit nom  
+		memcpy(name + 25*i, ma_grille[i].get_name().c_str() , 25 );		
+	}
+
+	for (int i = 0; i < nombre_joueurs; i++){
+		// on envoit nom  
+		write(client_descriptor[i], name, 25* nombre_joueurs);	
+	}
 
 
 

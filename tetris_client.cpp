@@ -63,9 +63,18 @@ int main( int argc, char *argv[]  ){
     }
 
     std::cout << std::endl << "Vous etes connecté à la partie, celle-ci débutera automatiquement des que tous les joueurs seront connectés " << std::endl << std::endl;
-    int lancement = 0;
-    read(socket_descriptor, &lancement, sizeof(int) );
+    // reception nombre joueur
+    int nombre_joueurs;
+    read(socket_descriptor, &nombre_joueurs, sizeof(int) );
 
+    // reception des noms
+	char* name = (char *) malloc(25*nombre_joueurs*sizeof(char) );
+	read(socket_descriptor, name, 25*nombre_joueurs );
+	char name_vector[nombre_joueurs][25];
+	for (int i = 0; i < nombre_joueurs; i++){
+		memcpy( &name_vector[i], name + 25*i, 25);
+	}
+ 
     // ------------  AFFICHAGE ET COMMANDE ------------------ //
     std::chrono::time_point<std::chrono::system_clock> start, end;
     std::chrono::duration<double> chrono;
@@ -106,7 +115,6 @@ int main( int argc, char *argv[]  ){
 
     sf::Text score2;
     score2.setFont(font);
-    score2.setString("SCORE");
     score2.setCharacterSize(40);
     score2.setFillColor(sf::Color(255, 0, 204));
     score2.setPosition(800,400);
@@ -155,12 +163,10 @@ int main( int argc, char *argv[]  ){
     sf::Clock clock;
     sf::Time t = sf::seconds(1.0f);
 
-    int size_msg_to_rcv1 = 2*sizeof(int);
-    int* message_to_rcv1 = (int *) malloc( size_msg_to_rcv1);
-    read(socket_descriptor, message_to_rcv1 , size_msg_to_rcv1 );
-    int nombre_joueurs = message_to_rcv1[0];
-    int numero_joueur = message_to_rcv1[1];
-
+    
+    int numero_joueur;
+    read(socket_descriptor, &numero_joueur , sizeof(int) );
+ 
     int grille_scores[nombre_joueurs];
 
     int piece_suivante;
@@ -205,7 +211,7 @@ int main( int argc, char *argv[]  ){
     		std::string sco = std::to_string((int) message_to_rcv[2+j]);
         	score3.setString(sco);
 			window.draw(score3);
-			joueur.setString( "JOUEUR" + std::to_string(j+1));
+			joueur.setString( name_vector[j] ); // affiche nom joueur
 			window.draw(joueur);
 		}
 
