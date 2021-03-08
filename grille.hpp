@@ -42,6 +42,7 @@ class grid {
 
 		// recupérer la status
 		int get_status_partie() ;
+		void set_status_partie(int new_status_partie);
 
 		//recupere grille
 		int* data();

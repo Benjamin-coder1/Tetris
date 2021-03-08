@@ -34,6 +34,8 @@ grid::get_score() { return score; }
 int 
 grid::get_status_partie() { return status_partie; }
 
+void 
+grid::set_status_partie(int new_status_partie) { status_partie = new_status_partie; }
 
 
 void 

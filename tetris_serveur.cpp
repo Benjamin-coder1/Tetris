@@ -29,6 +29,9 @@ int partie(grid& ma_grille, int i , int socket_descriptor, int nombre_joueurs, i
 	int* message_to_send = (int *) malloc( size_msg_to_send);
 	int piece_suivante = std::rand()%7;
 
+
+	
+
 	while( ma_grille.get_status_partie() ){
 
 		// on supprime les lignes entieres 
@@ -62,7 +65,7 @@ int partie(grid& ma_grille, int i , int socket_descriptor, int nombre_joueurs, i
 
  		while( end ) {
 
- 			// Protocole d'envoit  			
+ 			// Protocole d'envoi  			
  			message_to_send[0] = ma_grille.get_status_partie();
  			//message_to_send[1] = ma_grille.get_score();
  			message_to_send[1] = piece_suivante;
@@ -91,6 +94,12 @@ int partie(grid& ma_grille, int i , int socket_descriptor, int nombre_joueurs, i
 	    	else if ( (char) touch == 'r') {
 	    		ma_grille.piece_rotation(p);
 	    	}  
+
+	    	else if ( (char) touch == 'f') {
+	    		ma_grille.set_status_partie(0); // on a fermée la fenetre
+	    		std::cout << ma_grille.get_name() << " a terminé sa partie" << std::endl;
+	    		return 1;
+	    	} 
 
 	    	else {
 	    		end = ma_grille.piece_translation_B(p);

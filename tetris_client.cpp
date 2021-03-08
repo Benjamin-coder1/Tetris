@@ -16,64 +16,66 @@
 
 int main( int argc, char *argv[]  ){
 
-	// ------------  CONNECTION SERVEUR ------------------ //
+    // ------------  CONNECTION SERVEUR ------------------ //
 
-	// recuperation informations partie
-	char nom_joueur[25];
-	std::cout << "Nom du joueur : ";
-	scanf("%s", nom_joueur);
+    // recuperation informations partie
+    char nom_joueur[25];
+    std::cout << "Nom du joueur : ";
+    scanf("%s", nom_joueur);
 
-	char nom_hote[25];
-	std::cout << "Adresse IP : " ;
-	scanf(" %s", nom_hote);
+    char nom_hote[25];
+    std::cout << "Adresse IP : " ;
+    scanf(" %s", nom_hote);
 
 
-	// connexion avec le serveur 
+    // ************ Connexion avec le serveur ************ // 
     struct sockaddr_in serv_addr;   
     struct hostent *server;
 
     int port_number = 11003;
- 	int socket_descriptor = socket(AF_INET, SOCK_STREAM, 0);
- 	if (socket_descriptor < 0){
-		std::cout << "Le lancement de la connexion à échoué impossible de créer un socket" << std::endl;
-		return 0;
-	}
+    int socket_descriptor = socket(AF_INET, SOCK_STREAM, 0);
+    if (socket_descriptor < 0){
+        std::cout << "Le lancement de la connexion à échoué impossible de créer un socket" << std::endl;
+        return 0;
+    }
 
  
-	server = gethostbyname(nom_hote);
-	if (server == NULL) {
-		std::cout << "La connexion à échouée " << std::endl;
-	    return 0;
-	}
+    server = gethostbyname(nom_hote);
+    if (server == NULL) {
+        std::cout << "La connexion à échouée " << std::endl;
+        return 0;
+    }
  
-	bzero((char *) &serv_addr, sizeof(serv_addr));
+    bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     bcopy( (char *) server->h_addr, (char *) &serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(port_number);
 
     if (connect(socket_descriptor,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0){
-		std::cout << "La connexion à échoué " << std::endl;
-        return 0;    	
+        std::cout << "La connexion à échoué " << std::endl;
+        return 0;       
     }
  
     // on envoit le nom du joueur
     if ( write(socket_descriptor, nom_joueur, 25) < 0) {
-		std::cout << "La connexion à échoué " << std::endl;
+        std::cout << "La connexion à échoué " << std::endl;
         return 0;    
     }
+
+    // ****************************************** // 
 
     std::cout << std::endl << "Vous etes connecté à la partie, celle-ci débutera automatiquement des que tous les joueurs seront connectés " << std::endl << std::endl;
     // reception nombre joueur
     int nombre_joueurs;
     read(socket_descriptor, &nombre_joueurs, sizeof(int) );
 
-    // reception des noms
-	char* name = (char *) malloc(25*nombre_joueurs*sizeof(char) );
-	read(socket_descriptor, name, 25*nombre_joueurs );
-	char name_vector[nombre_joueurs][25];
-	for (int i = 0; i < nombre_joueurs; i++){
-		memcpy( &name_vector[i], name + 25*i, 25);
-	}
+    // reception des tous les noms
+    char* name = (char *) malloc(25*nombre_joueurs*sizeof(char) );
+    read(socket_descriptor, name, 25*nombre_joueurs );
+    char name_vector[nombre_joueurs][25];
+    for (int i = 0; i < nombre_joueurs; i++){
+        memcpy( &name_vector[i], name + 25*i, 25);
+    }
  
     // ------------  AFFICHAGE ET COMMANDE ------------------ //
     std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -83,13 +85,13 @@ int main( int argc, char *argv[]  ){
     int status_partie = 1;
     int score = 0;
 
-    // ------------------- INTERFACE GRAPHIQUE INITIALISATION -------------- //
+    // ******************* INTERFACE GRAPHIQUE INITIALISATION ******************* //
 
     float timeElapsed = 0.0;
 
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "TETRIS");
-	window.setFramerateLimit(30);
-	window.setSize(sf::Vector2u(750, 750));
+    window.setFramerateLimit(30);
+    window.setSize(sf::Vector2u(750, 750));
 
 
     sf::RectangleShape fond(sf::Vector2f(1000, 1000));
@@ -162,20 +164,26 @@ int main( int argc, char *argv[]  ){
 
     sf::Clock clock;
     sf::Time t = sf::seconds(1.0f);
-
     
+    // ****************************************** // 
+
+    // reception numero joueur pour placer score en haut    
     int numero_joueur;
     read(socket_descriptor, &numero_joueur , sizeof(int) );
- 
+
+    // grille avec tous les scores 
     int grille_scores[nombre_joueurs];
 
+    // variable de jeu
     int piece_suivante;
     int indicateur = 1;
     int indicInit = 0;
     bool out;
     int decalage;
+
+    status_partie = 1;
     
-    while ( window.isOpen() ){
+    while ( window.isOpen() && status_partie ){
 
         out = false;
 
@@ -196,36 +204,34 @@ int main( int argc, char *argv[]  ){
 
         decalage = 180;
         for(int j = 0; j < nombre_joueurs; j++){
-    		if (j == numero_joueur) {
-			    score3.setPosition(810,510);
-			    rectangleScore.setPosition(750,500);
-			    joueur.setPosition(785,440);
-    		}
-    		else {
-			    score3.setPosition(810,510 + decalage);
-			    rectangleScore.setPosition(750,500 + decalage);
-			    joueur.setPosition(785,440+decalage);
-			    decalage += 180;
-    		}
-    		window.draw(rectangleScore);
-    		std::string sco = std::to_string((int) message_to_rcv[2+j]);
-        	score3.setString(sco);
-			window.draw(score3);
-			joueur.setString( name_vector[j] ); // affiche nom joueur
-			window.draw(joueur);
-		}
+            if (j == numero_joueur) {
+                score3.setPosition(810,510);
+                rectangleScore.setPosition(750,500);
+                joueur.setPosition(785,440);
+            }
+            else {
+                score3.setPosition(810,510 + decalage);
+                rectangleScore.setPosition(750,500 + decalage);
+                joueur.setPosition(785,440+decalage);
+                decalage += 180;
+            }
+            window.draw(rectangleScore);
+            std::string sco = std::to_string((int) message_to_rcv[2+j]);
+            score3.setString(sco);
+            window.draw(score3);
+            joueur.setString( name_vector[j] ); // affiche nom joueur
+            window.draw(joueur);
+        }
 
         memcpy( grid_tab, &message_to_rcv[2+nombre_joueurs], 22*10*sizeof(int) );   
     
         //std::cout << "Le score est de : " << score << "\r" << std::flush << std::endl << std::endl ;
 
 
-
-
         window.draw(rectanglePieceSuivante);
         window.draw(textPieceSuivante);
 
-		for (int i =0;i<4;i++) {
+        for (int i =0;i<4;i++) {
             for(int j=0;j<4;j++) {
                 if (piece_value[piece_suivante][1][i][j] > 0) {
 
@@ -309,6 +315,9 @@ int main( int argc, char *argv[]  ){
             {
                 if (event.type == sf::Event::Closed) {
                     window.close();
+                    touch = 'f';
+                    // on envoit la touche pour indiquer fermeture fenetre
+                    write(socket_descriptor, &touch, sizeof(char));   
                     return 0;
                 }
 
@@ -345,6 +354,9 @@ int main( int argc, char *argv[]  ){
         write(socket_descriptor, &touch, sizeof(char));     
 
     }
+
+    // ferme fenetre
+    window.close();
 
     // on affiche nom gagnant 
     char nom_winner[25];
